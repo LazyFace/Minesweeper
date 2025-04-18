@@ -1,0 +1,27 @@
+name: Unity Test Runner
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+    name: Run Unity EditMode Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Cache Unity packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/unity3d
+          key: Library
+
+      - name: Run Edit Mode Tests
+        uses: game-ci/unity-test-runner@v4
+        with:
+          projectPath: .
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
